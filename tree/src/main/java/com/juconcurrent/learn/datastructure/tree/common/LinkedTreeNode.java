@@ -1,4 +1,4 @@
-package com.juconcurrent.learn.datastructure.tree;
+package com.juconcurrent.learn.datastructure.tree.common;
 
 import java.util.List;
 
