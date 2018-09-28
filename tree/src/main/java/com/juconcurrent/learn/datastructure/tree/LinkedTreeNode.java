@@ -7,9 +7,9 @@ import java.util.List;
  */
 public class LinkedTreeNode {
 
-    private Object data;
-    private LinkedTreeNode parent;
-    private List<LinkedTreeNode> children;
+    private Object data; // 存储的数据
+    private LinkedTreeNode parent; // 父节点
+    private List<LinkedTreeNode> children; // 子节点列表
 
     public LinkedTreeNode(Object data, LinkedTreeNode parent,
                           List<LinkedTreeNode> children) {
