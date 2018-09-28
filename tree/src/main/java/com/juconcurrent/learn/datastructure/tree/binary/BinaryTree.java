@@ -8,6 +8,10 @@ package com.juconcurrent.learn.datastructure.tree.binary;
  * 5. 获取二叉树高度
  * 6. 获取二叉树节点数
  * 7. 获取节点的父节点
+ * <p>
+ * 8. 先序遍历
+ * 9. 中序遍历
+ * 10. 后序遍历
  *
  * @author zhangfb
  */
@@ -106,5 +110,45 @@ public class BinaryTree {
         } else {
             return getParent(currentNode.getRight(), node);
         }
+    }
+
+    /**
+     * 先序遍历，先遍历根节点，再遍历左节点，最后遍历右节点
+     */
+    public void interateFirstOrder(BinaryTreeNode node) {
+        if (node == null) {
+            return;
+        }
+        operateData(node);
+        interateFirstOrder(node.getLeft());
+        interateFirstOrder(node.getRight());
+    }
+
+    /**
+     * 中序遍历，先遍历左节点，再遍历根节点，最后遍历右节点
+     */
+    public void interateMiddleOrder(BinaryTreeNode node) {
+        if (node == null) {
+            return;
+        }
+        interateMiddleOrder(node.getLeft());
+        operateData(node);
+        interateMiddleOrder(node.getRight());
+    }
+
+    /**
+     * 后序遍历，先遍历左节点，再遍历右节点，最后遍历根节点
+     */
+    public void interateLastOrder(BinaryTreeNode node) {
+        if (node == null) {
+            return;
+        }
+        interateLastOrder(node.getLeft());
+        interateLastOrder(node.getRight());
+        operateData(node);
+    }
+
+    private void operateData(BinaryTreeNode node) {
+        System.out.println(node.getData() + " ");
     }
 }
