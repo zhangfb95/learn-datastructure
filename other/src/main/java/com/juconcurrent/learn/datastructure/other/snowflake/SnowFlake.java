@@ -24,7 +24,7 @@ public class SnowFlake {
     /**
      * 默认时间偏移量
      */
-    private volatile long timeOffset = System.currentTimeMillis() - START_TIME_STAMP;
+    private volatile long timeOffset = timeOffset();
 
     /**
      * 计数器，用于生成1毫秒内的序列号。当一毫秒内生成的序列号超过10位，则顺延到下一毫秒
@@ -38,7 +38,7 @@ public class SnowFlake {
     public Long create() {
         while (true) {
             final long prev = timeOffset;
-            final long curr = System.currentTimeMillis() - START_TIME_STAMP;
+            final long curr = timeOffset();
             if (prev < curr) {
                 timeOffset = curr;
                 counter.set(0L);
@@ -53,5 +53,9 @@ public class SnowFlake {
                 }
             }
         }
+    }
+
+    private long timeOffset() {
+        return System.currentTimeMillis() - START_TIME_STAMP;
     }
 }
