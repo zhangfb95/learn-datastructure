@@ -12,13 +12,26 @@ import static org.junit.Assert.assertEquals;
  */
 public class SnowFlakeTest {
 
-    @Test public void test() {
+    @Test public void test() throws Exception {
         SnowFlake snowFlake = new SnowFlake(() -> 1L);
+
+        final int threadCount = 10;
         final int length = 100000;
-        Set<Long> allIds = new HashSet<>(length);
-        for (int i = 0; i < length; i++) {
-            allIds.add(snowFlake.create());
+        Set<Long> allIds = new HashSet<>(threadCount * length);
+
+        Thread[] threads = new Thread[threadCount];
+        for (int i = 0; i < threadCount; i++) {
+            threads[i] = new Thread(() -> {
+                for (int j = 0; j < length; j++) {
+                    allIds.add(snowFlake.create());
+                }
+            });
+            threads[i].start();
         }
+        for (int i = 0; i < threadCount; i++) {
+            threads[i].join();
+        }
+
         assertEquals(length, allIds.size());
     }
 }
