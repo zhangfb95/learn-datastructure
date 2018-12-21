@@ -1,7 +1,5 @@
 package com.juconcurrent.learn.datastructure.other.snowflake;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 /**
  * 雪花算法
  * <p>
@@ -24,33 +22,37 @@ public class SnowFlake {
     /**
      * 默认时间偏移量
      */
-    private volatile long timeOffset = timeOffset();
+    private long timeOffset = timeOffset();
 
     /**
      * 计数器，用于生成1毫秒内的序列号。当一毫秒内生成的序列号超过10位，则顺延到下一毫秒
      */
-    private AtomicLong counter = new AtomicLong(0L);
+    private int counter = 0;
+
 
     public SnowFlake(MachineCodeGenerator machineCodeGenerator) {
         this.machineCodeGenerator = machineCodeGenerator;
     }
 
-    public Long create() {
+    public synchronized Long create() {
         while (true) {
             final long prev = timeOffset;
             final long curr = timeOffset();
+
             if (prev < curr) {
                 timeOffset = curr;
-                counter.set(0L);
+                counter = 0;
                 return ((curr) << 22) +
                        (machineCodeGenerator.generate() << 10);
             } else if (prev == curr) {
-                long num = counter.incrementAndGet();
+                long num = ++counter;
                 if (num < 1024L) {
                     return ((curr) << 22) +
                            (machineCodeGenerator.generate() << 10) +
                            num;
                 }
+            } else {
+                System.out.println("时钟回拨");
             }
         }
     }
