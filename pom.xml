@@ -11,6 +11,7 @@
     <modules>
         <module>tree</module>
         <module>routing</module>
+        <module>other</module>
     </modules>
 
     <build>
