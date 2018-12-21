@@ -17,10 +17,11 @@ public class SnowFlakeTest {
     @Test public void test() throws Exception {
         SnowFlake snowFlake = new SnowFlake(() -> 1L);
 
-        final int threadCount = 30;
-        final int length = 10000;
-        ConcurrentMap allIds = new ConcurrentHashMap<>(threadCount * length);
+        final int threadCount = 100;
+        final int length = 100000;
+        ConcurrentMap<Long, String> allIds = new ConcurrentHashMap<>(threadCount * length);
         List<Long> existedIds = new CopyOnWriteArrayList<>();
+        final long start = System.currentTimeMillis();
 
         Thread[] threads = new Thread[threadCount];
         for (int i = 0; i < threadCount; i++) {
@@ -40,6 +41,7 @@ public class SnowFlakeTest {
 
         System.out.println(existedIds);
         System.out.println(allIds.size());
+        System.out.println("spent: " + (System.currentTimeMillis() - start) + " ms");
         assertTrue(existedIds.isEmpty());
     }
 }
