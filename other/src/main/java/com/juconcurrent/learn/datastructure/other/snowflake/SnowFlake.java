@@ -45,7 +45,7 @@ public class SnowFlake {
                 return ((curr) << 22) +
                        (machineCodeGenerator.generate() << 10);
             } else if (prev == curr) {
-                long num = counter.getAndIncrement();
+                long num = counter.incrementAndGet();
                 if (num < 1024L) {
                     return ((curr) << 22) +
                            (machineCodeGenerator.generate() << 10) +
